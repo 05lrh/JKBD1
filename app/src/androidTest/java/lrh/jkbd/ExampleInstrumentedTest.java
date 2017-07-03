@@ -1,26 +1,39 @@
-package lrh.jkbd;
+initView();
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+        -        loadDate();
+        +        iExamBiz=new ExamBiz();
+        +        loadData();
+        }
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@Override
+@@ -79,8 +80,10 @@ private void setListener() {
+        registerReceiver(loadQuestionBroadcast,new IntentFilter(ExamApplication.LOAD_QUESTION));
+        }
 
-import static org.junit.Assert.*;
+        -    private  void loadDate(){
+        -        iExamBiz=new ExamBiz();
+        +    private  void loadData(){
+        +        linearLayout.setEnabled(false);
+        +        pb_loading.setVisibility(View.VISIBLE);
+        +        tv_loading.setText("Loading...");
+        new Thread(new Runnable() {
+@Override
+public void run() {
+@@ -116,8 +119,16 @@ private void initData(){
+        Log.e("onCreate:question","questionList为空！");
+        }
+        }else{
+        +                linearLayout.setEnabled(true);
+        pb_loading.setVisibility(View.GONE);
+        tv_loading.setText("加载失败，点击屏幕重新加载！");
+        +
+        +                linearLayout.setOnClickListener(new View.OnClickListener() {
+        +                    @Override
+ +                    public void onClick(View v) {
+        +                        loadData();
+        +                    }
+        +                });
+        }
+        }
 
-/**
- * Instrumentation test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-@RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
-    @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("lrh.jkbd", appContext.getPackageName());
-    }
-}
